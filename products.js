@@ -10,23 +10,24 @@ const app = {
     },
     methods: {
         checkUser(){
-            axios.post(`${this.api_Url}/api/user/check`)
-                .then((res) => {
-                    console.log(res.data);
-                    console.log("使用者驗證正確");
-                    this.getProducts()
-                }).catch((err) => {
-                    console.log(err.response);
-                    console.log("使用者驗證失敗");
-                });
+            // axios.post(`${this.api_Url}/api/user/check`)
+            //     .then((res) => {
+            //         console.log(res.data);
+            //         console.log("使用者驗證正確");
+            //         this.getProducts()
+            //     }).catch((err) => {
+            //         console.log(err.response);
+            //         console.log("使用者驗證失敗");
+            //     });
         },
         getProducts(){
-            axios.get(`${this.api_Url}/api/${this.api_Path}/admin/products/all`)
-                .then((res) => {
-                    console.log(res.data);
-                }).catch((err) => {
-                    console.log(err);
-                });
+            // axios.get(`${this.api_Url}/api/${this.api_Path}/admin/products/all`)
+            //     .then((res) => {
+            //         console.log(res.data.products);
+            //         this.products = res.data.products
+            //     }).catch((err) => {
+            //         console.log(err);
+            //     });
         }
         
     },
