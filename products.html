@@ -11,7 +11,7 @@
         <div class="container">
             <div class="row mt-4">
                 <div class="col-md-12 d-flex justify-content-end">
-                    <button class="btn btn-primary">建立新的產品</button>
+                    <button class="btn btn-primary" data-bs-target="#editProduct">建立新的產品</button>
                 </div>
                 <div class="col-md-12 mt-4">
                     <table class="table">
@@ -26,19 +26,19 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-                            <tr>
+                            <tr v-for="(product, index) in products" :key="index">
                             
-                                <td>{{  }}</td>
-                                <td>{{  }}</td>
-                                <td>{{  }}</td>
-                                <td>{{  }}</td>
+                                <td>{{ product.category }}</td>
+                                <td>{{ product.title }}</td>
+                                <td>{{ product.origin_price }}</td>
+                                <td>{{ product.price }}</td>
                                 <td>
-                                    <span class="text-success">啟用</span>
-                                    <span >未啟用</span>
+                                    <span v-if="product.is_enabled" class="text-success">啟用</span>
+                                    <span v-else>未啟用</span>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProduct">編輯</button>
+                                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProduct" @click="openModal(product)">編輯</button>
                                         <button class="btn btn-outline-danger btn-sm">刪除</button>
 
                                     </div>
@@ -63,58 +63,58 @@
                         <div class="col-sm-4 ">
                             <div class="mb-3">
                                 <label class="form-label" for="mainImg">主要圖片</label>
-                                <input class="form-control" type="text" id="mainImg" placeholder="請輸入圖片連結">
-                                <img src="" alt="" srcset="">
+                                <input class="form-control" type="text" id="mainImg" placeholder="請輸入圖片連結" v-model="modalProduct.imageUrl">
+                                <img class="img-fluid" :src="modalProduct.imageUrl" alt="" srcset="">
                             </div>
                             <h3>多圖新增</h3>
                             <div class="mb-3">
                                 <label class="form-label" for="imagesUrl" >圖片網址</label>
                                 <input class="form-control" type="text" id="imagesUrl" placeholder="請輸入圖片連結">
-                                <img src="" alt="" srcset="">
+                                <img class="img-fluid" src="" alt="" srcset="">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="imagesUrl" >圖片網址</label>
                                 <input class="form-control" type="text" id="imagesUrl" placeholder="請輸入圖片連結">
-                                <img src="" alt="" srcset="">
+                                <img class="img-fluid" src="" alt="" srcset="">
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="mb-3">
                                 <label class="form-label" for="productTitle">商品名稱</label>
-                                <input class="form-control" type="text" id="productTitle">
+                                <input class="form-control" type="text" id="productTitle"  v-model="modalProduct.title">
                             </div>
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label class="form-label" for="productCategory">分類</label>
-                                    <input class="form-control" type="text" id="productCategory">
+                                    <input class="form-control" type="text" id="productCategory" v-model="modalProduct.category">
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label" for="productUnit">單位</label>
-                                    <input class="form-control" type="text" id="productUnit">
+                                    <input class="form-control" type="text" id="productUnit" v-model="modalProduct.unit">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6 mb-3">
                                     <label class="form-label" for="productOriginPrice">原價</label>
-                                    <input class="form-control" type="number" id="productOriginPrice">
+                                    <input class="form-control" type="number" id="productOriginPrice" v-model="modalProduct.origin_price">
                                 </div>
                                 <div class="col-6 mb-3">
                                     <label class="form-label" for="productPrice">售價</label>
-                                    <input class="form-control" type="number" id="productPrice">
+                                    <input class="form-control" type="number" id="productPrice" v-model="modalProduct.price">
                                 </div>
                             </div>
                             <hr>
                             <div class="mb-3">
                                 <label class="form-label" for="productDescription">產品敘述</label>
-                               <textarea class="form-control" id="productDescription"  placeholder="請輸入產品描述"></textarea>
+                               <textarea class="form-control" id="productDescription"  placeholder="請輸入產品描述" v-model="modalProduct.description"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="productContent">說明內容</label>
-                               <textarea class="form-control" id="productContent"  placeholder="請輸入說明內容"></textarea>
+                               <textarea class="form-control" id="productContent"  placeholder="請輸入說明內容" v-model="modalProduct.content"></textarea>
                             </div>
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="productIsEnable">
+                                    <input class="form-check-input" type="checkbox" id="productIsEnable" v-bind="modalProduct.is_enabled">
                                     <label class="form-check-label" for="productIsEnable">是否啟用</label>
                                 </div>
                             </div>
@@ -128,7 +128,6 @@
             </div>
             </div>
         </div>
-
 
 
     </div>
