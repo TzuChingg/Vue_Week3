@@ -8,8 +8,9 @@ const app = {
             api_Url: 'https://ec-course-api.hexschool.io/v2',
             api_Path: 'chinging',
             products: [], 
-            modalProduct: '',
-            newModalProduct: ''
+            modalProduct: {},
+            newModalProduct: {},
+            state: ''
         }
     },
     methods: {
@@ -35,9 +36,11 @@ const app = {
         },
         openModal(state, item){
             if (state === 'isNew'){
-                this.modalProduct = ''
+                this.state = state
+                this.modalProduct = {}
                 productModal.show()
             }else if (state === 'edit'){
+                this.state = state
                 this.modalProduct = item
                 productModal.show()
             }else if (state === 'del'){
@@ -45,18 +48,24 @@ const app = {
                 delProductModal.show()
             }
         },
-        updateProduct(state, id){
-            if (state === 'isNew'){
-                
-                // axios.post(`${this.api_Url}/v2/api/${this.api_Path}/admin/product`, {data: temp})
-            
-            }else if (state === 'edit'){
-                this.modalProduct = item
-                productModal.show()
-            }else if (state === 'del'){
-                this.modalProduct = item
-                delProductModal.show()
+        updateProduct(){
+            let url = `${this.api_Url}/api/${this.api_Path}/admin/product`;
+            let way = 'post';
+      
+            if (this.state !== 'isNew') {
+              url = `${this.api_Url}/api/${this.api_Path}/admin/product/${this.modalProduct.id}`;
+              way = 'put'
             }
+      
+            console.log(this.modalProduct);
+            axios[way](url, { data: this.modalProduct }).then((response) => {
+              alert(response.data.message);
+              productModal.hide();
+              this.getProducts();
+            }).catch((err) => {
+              alert(err.response.data.message);
+            })
+            
 
         }
         
