@@ -17,21 +17,20 @@ const app = {
         checkUser(){
             axios.post(`${this.api_Url}/api/user/check`)
                 .then((res) => {
-                    console.log(res.data);
                     console.log("使用者驗證正確");
                     this.getProducts()
                 }).catch((err) => {
-                    console.log(err.response);
-                    console.log("使用者驗證失敗");
+                    alert(err.response.data.message);
+                    window.location = 'index.html'
                 });
         },
         getProducts(){
             axios.get(`${this.api_Url}/api/${this.api_Path}/admin/products/all`)
                 .then((res) => {
-                    console.log(res.data.products);
                     this.products = res.data.products
+                    console.log('getProducts');
                 }).catch((err) => {
-                    console.log(err);
+                    alert(err.response.data.message);
                 });
         },
         openModal(state, item){
@@ -57,7 +56,6 @@ const app = {
               way = 'put'
             }
       
-            console.log(this.modalProduct);
             axios[way](url, { data: this.modalProduct }).then((response) => {
               alert(response.data.message);
               productModal.hide();
@@ -65,10 +63,19 @@ const app = {
             }).catch((err) => {
               alert(err.response.data.message);
             })
-            
-
+            console.log('產品更新');
+        },
+        delProduct(){
+            axios.delete(`${this.api_Url}/api/${this.api_Path}/admin/order/${this.modalProduct.id}`)
+            .then((result) => {
+                console.log(this.modalProduct.id);
+                alert(result.data.message)
+                delProductModal.hide()
+                this.getProducts()
+            }).catch((err) => {
+                alert(err.response.data.message);
+            });
         }
-        
     },
     mounted() {
         axios.defaults.headers.common['Authorization'] = document.cookie.split('=')[1]
