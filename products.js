@@ -8,7 +8,9 @@ const app = {
             api_Url: 'https://ec-course-api.hexschool.io/v2',
             api_Path: 'chinging',
             products: [], 
-            modalProduct: {},
+            modalProduct: {
+                imagesUrl:[]
+            },
             newModalProduct: {},
             state: ''
         }
@@ -66,7 +68,7 @@ const app = {
             console.log('產品更新');
         },
         delProduct(){
-            axios.delete(`${this.api_Url}/api/${this.api_Path}/admin/order/${this.modalProduct.id}`)
+            axios.delete(`${this.api_Url}/api/${this.api_Path}/admin/product/${this.modalProduct.id}`)
             .then((result) => {
                 console.log(this.modalProduct.id);
                 alert(result.data.message)
@@ -75,6 +77,10 @@ const app = {
             }).catch((err) => {
                 alert(err.response.data.message);
             });
+        },
+        createImages(){
+            this.modalProduct.imagesUrl = [];
+            this.modalProduct.imagesUrl.push('');
         }
     },
     mounted() {
